@@ -30,7 +30,7 @@ function [left_env, middle_env, right_env] = contract_environments(M, M_dagger, 
             left_env = 1;
         else
             % Contract tensors to build left environment
-            left_env = tensorprod(M{1}, H{1}, 2,1);
+            left_env = tensorprod(M{1}, H{1}, 2,2);
             left_env = tensorprod(left_env, M_dagger{1}, 3,2);
         end
 

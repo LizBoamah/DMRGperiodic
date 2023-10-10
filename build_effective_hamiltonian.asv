@@ -13,8 +13,8 @@ function effective_H = build_effective_hamiltonian(left_env, H_edge1, H_edge2, r
         effective_H = tensorprod(temp1, H_edge2, 5, 3);
 
         % Calculate dimensions for the subsequent reshape operation
-        siz1 = (size(effective_H, 3)*size(effective_H, 7)*size(effective_H, 6)*size(effective_H, 8));
-        siz2 = (size(effective_H, 2)*size(effective_H, 4)*size(effective_H, 5)*size(effective_H, 1));
+        siz1 = (size(effective_H, 1)*size(effective_H, 3)*size(effective_H, 5)*size(effective_H, 7));
+        siz2 = (size(effective_H, 2)*size(effective_H, 4)*size(effective_H, 6)*size(effective_H, 8));
 
     % Case 2: Special case where only the left environment is 1
     elseif left_env == 1
@@ -47,8 +47,8 @@ function effective_H = build_effective_hamiltonian(left_env, H_edge1, H_edge2, r
         effective_H = tensorprod(temp1, temp2, 7, 2);
 
         % Calculate dimensions for the subsequent reshape operation
-        siz1 = (size(effective_H, 3)*size(effective_H, 7)*size(effective_H, 6)*size(effective_H, 8)*size(effective_H, 1));
-        siz2 = (size(effective_H, 2)*size(effective_H, 4)*size(effective_H, 5)*size(effective_H, 9)*size(effective_H, 10));
+        siz1 = (size(effective_H, 1)*size(effective_H, 3)*size(effective_H, 5)*size(effective_H, 7)*size(effective_H, 9));
+        siz2 = (size(effective_H, 2)*size(effective_H, 4)*size(effective_H, 6)*size(effective_H, 8)*size(effective_H, 10));
 
     % Case 4: General case (neither left nor right environments are 1)
     else

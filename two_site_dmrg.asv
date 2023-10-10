@@ -55,11 +55,9 @@ function [dmrg,E_exact, energy_values, coefficients, E_DMRG] = two_site_dmrg(N, 
             H = hubbard_mpo_site(t,mu, N);
             Hmatrix = mpo_to_hamiltonian(H);
             [~,E_exact] = exact_diagonalization(Hmatrix);
-            % % Initialize the energy_sweeps vector  [Energy after forward sweep, Energy after backward sweep]
-            %   energy_values = zeros(max_sweeps, 2);
-            % Instead of storing only 2 energies per sweep, store them for each tensor optimization.
-    energy_values = zeros(max_sweeps * size(E_set, 1), 2); 
-
+            % Initialize the energy_sweeps vector  [Energy after forward sweep, Energy after backward sweep]
+              energy_values = zeros(max_sweeps, 2);
+            
     for sweep = 1:max_sweeps
         % Forward sweep
         for i = 1:size(E_set, 1)
@@ -73,11 +71,9 @@ function [dmrg,E_exact, energy_values, coefficients, E_DMRG] = two_site_dmrg(N, 
                 idx = find(diag(eig_val) == eig_val, 1);
                 psi = eig_vec(:, idx);
 
-                % % Store the energy after the forward sweep
-                % energy_values(sweep, 1) = energy_new1;
-            % Store the energy after each tensor optimization during forward sweep
-            energy_values((sweep-1) * size(E_set, 1) + i, 1) = energy_new1;
-
+                % Store the energy after the forward sweep
+                energy_values(sweep, 1) = energy_new1;
+            
                 % Reshape psi and perform SVD
                 psi_matrix = reshape(psi, [size(M{edge(1)}, 1) * size(M{edge(1)}, 2), size(M{edge(2)}, 2) * size(M{edge(2)}, 3)]);
                 [U, S, V] = svd(psi_matrix, 'econ');
@@ -112,11 +108,9 @@ function [dmrg,E_exact, energy_values, coefficients, E_DMRG] = two_site_dmrg(N, 
             idx = find(diag(eig_val) == eig_val, 1);
             psi = eig_vec(:, idx);
 
-            % % Store the energy after the backward sweep
-            %  energy_values(sweep, 2) = energy_new2;
-            % Store the energy after each tensor optimization during backward sweep
-            energy_values((max_sweeps - sweep) * size(E_set, 1) + i, 2) = energy_new2;
-
+            % Store the energy after the backward sweep
+             energy_values(sweep, 2) = energy_new2;
+            
             % Reshape psi and perform SVD
             psi_matrix = reshape(psi, [size(M{edge(1)}, 1) * size(M{edge(1)}, 2), size(M{edge(2)}, 2) * size(M{edge(2)}, 3)]);
             [U, S, V] = svd(psi_matrix, 'econ');
@@ -141,8 +135,8 @@ function [dmrg,E_exact, energy_values, coefficients, E_DMRG] = two_site_dmrg(N, 
    end
 
     dmrg = M;  % Final MPS state
-    % E_DMRG= min(energy_values);  % The last energy value after the final backward sweep
-     E_DMRG = energy_values(end, 2);  % The last energy value after the final backward sweep
+    E_DMRG= min(energy_values);  % The last energy value after the final backward sweep
+
 end
 
 
